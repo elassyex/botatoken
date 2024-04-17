@@ -1,0 +1,65 @@
+
+
+<html ng-app="custom-webapp-ui" lang="en">
+  <head>
+    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js" defer></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+
+    <style>
+      body {
+        width: 1000px;
+        margin: 0 auto;
+        font-family: Roboto, sans-serif;
+      }
+      .section {
+        padding: 20px; margin: 20px;
+        border: 2px #AEFF6A solid; border-radius: 8px;
+      }
+      #tonconnect-buttons>button {
+        display: block;
+        padding: 8px; margin-bottom: 8px;
+        font-size: 18px; font-family: inherit;
+      }
+      .featured {
+        font-weight: 800;
+      }
+    </style>
+    <!-- Load the Telegram Library -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+      function onTelegramWebAppLoad() {
+        const user_id = window.Telegram.WebApp.initData.user.id;
+        console.log("User ID:", user_id);
+      }
+    </script>
+    <!--Load the AngularJS Library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      //initialize the AngularJS stuff...
+      angular.module("custom-webapp-ui", []).controller('CustomUIController', function CustomUIController($scope) {
+        //init our slider values that we will display
+        $scope.foods = [
+                { name: "fruits", value: 5 },
+                { name: "vegetables", value: 5 },
+                { name: "meat", value: 5 },
+                { name: "dairy", value: 5 }
+            ];
+      });
+    </script>
+  </head>
+  <body ng-controller="CustomUIController">
+    <div class="section" id="tonconnect-buttons">
+    </div>
+    
+    <script>
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'tonconnect-manifest.json',
+            buttonRootId: 'tonconnect-buttons'
+        });
+    </script>
+    <div ng-repeat="food in foods">
+      <div style="width: 100px; display: inline-block; background-color: aliceblue;border-radius: 20px;width: max-content;margin-bottom: 8px;padding: 6px;"><h2>{{food.name}}</h2>  {{food.value}}       <input style="display: inline-block" type="range" min="1" max="10" ng-model="food.value" value="{{food.value}}"></div>
+
+    </div>
+  </body>
+</html>
